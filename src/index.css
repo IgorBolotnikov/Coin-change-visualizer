@@ -37,7 +37,7 @@ h5 {
 
 .coin {
   animation-name: slide;
-  animation-duration: 0.3s;
+  animation-duration: 0.2s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
 }

@@ -65,7 +65,6 @@ function App() {
     const change = getChange(array, coinNums);
     const coinsArray = getCoinsArray(change, coins);
     const coords = generateCoinCoords(coinsArray, width, height);
-    console.log(coords);
     setCoinCoords(coords);
   }
 

@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { getRandomInt, getDarkerColor, getCoinRadius } from './../helpers.js'
 
 const COIN_COLORS = {
-  1: '#f5b46e',
-  2: '#f5c16e',
-  5: '#f5d36e',
-  10: '#6ef5ea',
-  25: '#6eeaf5',
-  50: '#6ec1f5',
+  1: '#ffdb4d',
+  2: '#ffdb4d',
+  5: '#ffdb4d',
+  10: '#ffdb4d',
+  25: '#ffdb4d',
+  50: '#ffdb4d',
 }
 
 export default function Coin(props) {
   const color = COIN_COLORS[props.faceValue];
   const radius = getCoinRadius(props.faceValue);
-  const darkColor = getDarkerColor(color, 70);
+  const darkColor = getDarkerColor(color, 50);
   const circleStyle = {
     fill: color,
     cx: props.cx,
@@ -35,7 +35,9 @@ export default function Coin(props) {
   }
 
   return (
-    <g className="coin">
+    <g
+      className="coin"
+    >
       <circle style={circleStyle}/>
       <text
         x={props.cx}
@@ -45,6 +47,10 @@ export default function Coin(props) {
       >
         {props.faceValue}¢
       </text>
+      <path d={`M${props.cx},${props.cy - radius - 2} a1,1 0 0,0 0,${radius * 2 + 4}`}
+        fill="yellow"
+        opacity=".5"
+      />
     </g>
   );
 }

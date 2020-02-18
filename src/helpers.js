@@ -1,4 +1,4 @@
-const SVG_MARGIN = 150;
+const SVG_MARGIN = 100;
 
 export function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -29,7 +29,6 @@ export function generateCoinCoords(coins, windowWidth, windowHeight) {
   for (let coin of coins) {
     let collide = true;
     while (collide) {
-      console.log(coin);
       newCoords = {
         value: coin,
         x: getRandomInt(SVG_MARGIN, windowWidth - SVG_MARGIN),
@@ -37,17 +36,15 @@ export function generateCoinCoords(coins, windowWidth, windowHeight) {
       };
       collide = false;
       for (let otherCoords of coordsArray) {
-        if (otherCoords.value) {
-          if (otherCoords.value !== newCoords.value && checkCollision(
-            getCoinRadius(newCoords.value),
-            newCoords.x,
-            newCoords.y,
-            getCoinRadius(otherCoords.value),
-            otherCoords.x,
-            otherCoords.y,
-          )) {
-            collide = true;
-          }
+        if (otherCoords.value && checkCollision(
+          getCoinRadius(newCoords.value),
+          newCoords.x,
+          newCoords.y,
+          getCoinRadius(otherCoords.value),
+          otherCoords.x,
+          otherCoords.y,
+        )) {
+          collide = true;
         }
       }
       if (!collide) {
@@ -67,6 +64,5 @@ export function getCoinsArray(change, coins) {
       }
     }
   }
-  console.log(array);
   return array;
 }
