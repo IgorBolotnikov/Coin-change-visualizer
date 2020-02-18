@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 export default function CoinScreen(props) {
   const style = {
-    width: props.width,
+    width: "100%",
     height: props.height,
-    backgroundColor: "#f5f5dc"
+    backgroundColor: "#f5f5dc",
+    overflow: "hidden"
   }
 
   return (
@@ -16,6 +17,5 @@ export default function CoinScreen(props) {
 }
 
 CoinScreen.propTypes = {
-  width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired
 }

@@ -10,8 +10,6 @@ const COIN_COLORS = {
   25: '#6eeaf5',
   50: '#6ec1f5',
 }
-const BASE_SIZE = 50;
-
 
 export default function Coin(props) {
   const color = COIN_COLORS[props.faceValue];
@@ -34,14 +32,20 @@ export default function Coin(props) {
     fontStyle: "italic",
     lineHeight: 1,
     letterSpacing: -3,
-    transform: "rotate(" +  + ")"
   }
 
   return (
-    <React.Fragment>
+    <g className="coin">
       <circle style={circleStyle}/>
-      <text x={props.cx} y={props.cy} dy=".3em" style={textStyle}>{props.faceValue}¢</text>
-    </React.Fragment>
+      <text
+        x={props.cx}
+        y={props.cy}
+        style={textStyle}
+        dy=".3em"
+      >
+        {props.faceValue}¢
+      </text>
+    </g>
   );
 }
 

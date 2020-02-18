@@ -1,3 +1,5 @@
+const SVG_MARGIN = 150;
+
 export function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -13,39 +15,58 @@ export function getDarkerColor(color, diff) {
 
 export function getCoinRadius(faceValue) {
   const baseRadius = 50;
-   return baseRadius + (faceValue - baseRadius) / 2.5;
+   return baseRadius + (faceValue - baseRadius) / 3.5;
 }
 
 export function checkCollision(r1, x1, y1, r2, x2, y2) {
   return (x2 - x1) ** 2 + (y2 - y1) ** 2 < (r1 + r2) ** 2;
 }
 
+// TODO: make coords more structured
 export function generateCoinCoords(coins, windowWidth, windowHeight) {
-  const coords = {};
+  let coordsArray = [];
+  let newCoords = {};
   for (let coin of coins) {
     let collide = true;
     while (collide) {
       console.log(coin);
-      coords[coin] = {
-        x: getRandomInt(100, windowWidth - 100),
-        y: getRandomInt(100, windowHeight - 100)
+      newCoords = {
+        value: coin,
+        x: getRandomInt(SVG_MARGIN, windowWidth - SVG_MARGIN),
+        y: getRandomInt(SVG_MARGIN, windowHeight - SVG_MARGIN)
       };
       collide = false;
-      for (let otherCoin of coins) {
-        if (coords[otherCoin]) {
-          if (coords[otherCoin] !== coords[coin] && checkCollision(
-            getCoinRadius(coin),
-            coords[coin].x,
-            coords[coin].y,
-            getCoinRadius(otherCoin),
-            coords[otherCoin].x,
-            coords[otherCoin].y,
+      for (let otherCoords of coordsArray) {
+        if (otherCoords.value) {
+          if (otherCoords.value !== newCoords.value && checkCollision(
+            getCoinRadius(newCoords.value),
+            newCoords.x,
+            newCoords.y,
+            getCoinRadius(otherCoords.value),
+            otherCoords.x,
+            otherCoords.y,
           )) {
             collide = true;
           }
         }
       }
+      if (!collide) {
+        coordsArray.push(newCoords);
+      }
     }
   }
-  return coords;
+  return coordsArray;
+}
+
+export function getCoinsArray(change, coins) {
+  const array = [];
+  for (let coin of coins) {
+    if (change[coin] > 0) {
+      for (let count = 0; count < change[coin]; count++) {
+        array.push(coin);
+      }
+    }
+  }
+  console.log(array);
+  return array;
 }
