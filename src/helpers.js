@@ -1,4 +1,5 @@
-const SVG_MARGIN = 100;
+const SVG_WIDTH_MARGIN = Math.max(80, (window.innerWidth - 350) / 2);
+const SVG_HEIGHT_MARGIN = Math.max(80, (window.innerHeight - 350) / 2);
 
 export function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -31,8 +32,8 @@ export function generateCoinCoords(coins, windowWidth, windowHeight) {
     while (collide) {
       newCoords = {
         value: coin,
-        x: getRandomInt(SVG_MARGIN, windowWidth - SVG_MARGIN),
-        y: getRandomInt(SVG_MARGIN, windowHeight - SVG_MARGIN)
+        x: getRandomInt(SVG_WIDTH_MARGIN, windowWidth - SVG_WIDTH_MARGIN),
+        y: getRandomInt(SVG_HEIGHT_MARGIN, windowHeight - SVG_HEIGHT_MARGIN)
       };
       collide = false;
       for (let otherCoords of coordsArray) {
@@ -65,4 +66,8 @@ export function getCoinsArray(change, coins) {
     }
   }
   return array;
+}
+
+export function sleep(ms, resolve) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

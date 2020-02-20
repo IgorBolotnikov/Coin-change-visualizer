@@ -1,20 +1,9 @@
-const COIN_SIZES = [1, 2, 5, 10, 25, 50]; // Can be any amount and any values
-const COINS_NUMS = {
-  1: 10000,
-  2: 10000,
-  5: 9000,
-  10: 10000,
-  25: 7000,
-  50: 7000
-};
-const MAX_CHANGE = 100;
-const CYCLES_AMOUNT = 14000;
-var WITH_COEFF = false;
-
 export function getCoinNums(coinSizes, allCoinNums) {
   const coinNums = {};
   coinSizes.forEach((coin) => {
-    coinNums[coin] = allCoinNums[coin];
+    if (allCoinNums[coin].active) {
+      coinNums[coin] = allCoinNums[coin].value;
+    }
   });
   return coinNums;
 }
@@ -25,9 +14,9 @@ export function updateCoinNums(change, coinNums, coins) {
   }
 }
 
-export function getMaxCoinNum(coinNums, coins) {
+export function getMaxCoinNum(coinNums, coinSizes) {
   let maxNum = 0;
-  for (let coin of coins) {
+  for (let coin of coinSizes) {
     maxNum = coinNums[coin] > maxNum ? coinNums[coin] : maxNum;
   }
   return maxNum;
@@ -41,18 +30,21 @@ export function getMinCoinNum(coinNums, coinSizes) {
   return minNum;
 }
 
-export function getMinCoins(coinNums, changeSum, coinSizes) {
+export function getMinCoins(coinNums, changeSum, coinSizes, prioritization) {
   let minCoins = 0;
-  if (WITH_COEFF) {
-    minCoins = getAmountCoeff(coinNums, getMinCoinNum(coinNums, coinSizes)) * changeSum;
+  if (prioritization) {
+    minCoins = getAmountCoeff(
+      coinNums,
+      getMinCoinNum(coinNums, coinSizes), coinSizes
+    ) * changeSum;
   } else {
     minCoins = changeSum;
   }
   return minCoins
 }
 
-export function getAmountCoeff(coinNums, coinAmount) {
-  return getMaxCoinNum(coinNums) / coinAmount;
+export function getAmountCoeff(coinNums, coinAmount, coinSizes) {
+  return getMaxCoinNum(coinNums, coinSizes) / coinAmount;
 }
 
 // Create an array of length equal to che change sum
@@ -60,11 +52,11 @@ export function getAmountCoeff(coinNums, coinAmount) {
 // Each element in the array contains an object, which holds
 // the minimum amount of coins to get this sum
 // and amount of each coin separately
-export function getAmountsArray(changeSum, coinSizes, coinNums) {
+export function getAmountsArray(changeSum, coinSizes, coinNums, prioritization) {
   // Every amount (except from 0 cents) has maximum amount of coins
   // So that we can compare real values with these biggest amounts
   const entry = {}
-  entry.minCoins = getMinCoins(coinNums, changeSum, coinSizes);
+  entry.minCoins = getMinCoins(coinNums, changeSum, coinSizes, prioritization);
   coinSizes.forEach(coin => { entry[coin] = 0; });
   const amounts = new Array(changeSum + 1);
   amounts.fill(0);
@@ -76,7 +68,7 @@ export function getAmountsArray(changeSum, coinSizes, coinNums) {
   return amounts;
 }
 
-export function getChange(amountsArray, coinNums) {
+export function getChange(amountsArray, coinNums, coinSizes, prioritization) {
   // Coefficient is used to adjust particular coin 'value' depending on
   // How many coins of this value remain
   let amountCoeff = 1;
@@ -86,12 +78,12 @@ export function getChange(amountsArray, coinNums) {
   for (let amount = 1; amount < amountsArray.length; amount++) {
     // Check every coin
     let foundChange = false;
-    for (let coin of COIN_SIZES) {
+    for (let coin of coinSizes) {
       // Omit coins if their value is more than the amount itself, e.g.
       // There is no need to check if change of 3 can be given with 5 cent coin
       if (coin <= amount && coinNums[coin] > 0) {
-        if (WITH_COEFF) {
-          amountCoeff = getAmountCoeff(coinNums, coinNums[coin]);
+        if (prioritization) {
+          amountCoeff = getAmountCoeff(coinNums, coinNums[coin], coinSizes);
         }
         // Calculate the difference between the amount and coin value
         const diff = amount - coin;
@@ -137,7 +129,7 @@ export function getChange(amountsArray, coinNums) {
 // for (let coin of COIN_SIZES) {
 //   console.log(`${coin}-копеечных: ${coinNums[coin]}`);
 // }
-//
+
 // WITH_COEFF = !WITH_COEFF;
 //
 // coinNums = getCoinNums(COIN_SIZES);

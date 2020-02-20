@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --dark-bg-color: #333333;
+  --accent-color: #00cc00;
+  --sidebar-text-color: #ffffff;
+  --main-screen-bg-color: #ffffff;
 }
 
 code {
@@ -13,26 +18,104 @@ code {
 }
 
 h5 {
-  color: #00cc00;
+  color: var(--accent-color);
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.progress {
+  z-index: 500;
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  width: 60%;
+  margin: auto;
+  background-color: #eeeeee;
+  box-shadow: 00px 00px 15px #bbbbbb;
+  height: 20px;
+}
+
+.progress-bar {
+  background-color: var(--accent-color);
+}
+
+.navbar-minimal {
+  background-color: var(--dark-bg-color);
+}
+
+.button-accent {
+  background-color: var(--accent-color);
+  margin: auto;
+  display: block;
+  color: var(--sidebar-text-color);
+}
+
+.button-accent:hover {
+  color: var(--sidebar-text-color);
+}
+
+.sidebar {
+  width: 320px;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--dark-bg-color);
+  transition: 0.2s;
+}
+
+.sidebar-close {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 8px;
+  font-size: 60px;
+  line-height: 0.7;
+  margin-left: 50px;
+  font-weight: lighter;
+  background-color: var(--dark-bg-color);
+  border: none;
+}
+
+.sidebar-hidden {
+  width: 0px;
+}
+
+.main-screen {
+  width: 100%;
+  height: calc(100vh - 54px);
+  background-color: var(--main-screen-bg-color);
+  overflow: hidden;
+  background-color: #eeeeee;
 }
 
 .input-range {
   margin: 20px auto 30px auto;
-  width: calc(100% - 20px);
-  max-width: 300px;
+  width: 220px;
 }
 
 .input-range__label {
-  color: #ffffff;
+  color: var(--sidebar-text-color);
 }
 
 .input-range__track--active {
-  background-color: #00cc00;
+  background-color: var(--accent-color);
 }
 
 .input-range__slider {
-  background: #00cc00;
-  border: 1px solid #00cc00
+  background: var(--accent-color);
+  border: 1px solid var(--accent-color)
 }
 
 .coin {
@@ -49,6 +132,21 @@ h5 {
   to {
     transform: translate(0px, 0px);
   }
+}
+
+.input-field {
+  background-color: var(--dark-bg-color);
+  border: 0px solid black;
+  border-bottom: 2px solid var(--accent-color);
+  border-color: rgba(0, 204, 0, 0.3);
+  color: var(--sidebar-text-color);
+  transition: border-color .2s;
+  width: 150px;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--accent-color);
 }
 
 /* Toggler Start */
@@ -99,15 +197,15 @@ h5 {
   position: absolute;
   z-index: 5;
   text-align: center;
-  background: #00cc00;
+  background: var(--accent-color);
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 .can-toggle input[type="checkbox"]:checked ~ label .can-toggle__switch {
-  background-color: #000080;
+  background-color: var(--dark-bg-color);
 }
 .can-toggle input[type="checkbox"]:checked ~ label .can-toggle__switch:after {
-  color: white;
+  color: var(--sidebar-text-color);
 }
 .can-toggle label .can-toggle__label-text {
   -webkit-box-flex: 1;
@@ -116,17 +214,17 @@ h5 {
 .can-toggle label .can-toggle__switch {
   -webkit-transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
   transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
-  background: #000080;
+  background: var(--dark-bg-color);
 }
 .can-toggle label .can-toggle__switch:before {
-  color: white;
+  color: var(--sidebar-text-color);
 }
 .can-toggle label .can-toggle__switch:after {
   -webkit-transition: -webkit-transform 0.3s cubic-bezier(0, 1, 0.5, 1);
   transition: -webkit-transform 0.3s cubic-bezier(0, 1, 0.5, 1);
   transition: transform 0.3s cubic-bezier(0, 1, 0.5, 1);
   transition: transform 0.3s cubic-bezier(0, 1, 0.5, 1), -webkit-transform 0.3s cubic-bezier(0, 1, 0.5, 1);
-  color: white;
+  color: var(--sidebar-text-color);
 }
 .can-toggle input[type="checkbox"]:checked ~ label .can-toggle__switch:after {
   -webkit-transform: translate3d(65px, 0, 0);
@@ -139,7 +237,7 @@ h5 {
   -webkit-box-flex: 0;
   flex: 0 0 156px;
   border-radius: 4px;
-  border: 1px solid #00cc00;
+  border: 1px solid var(--accent-color);
 }
 .can-toggle label .can-toggle__switch:before {
   left: 63px;
@@ -158,3 +256,176 @@ h5 {
 }
 
 /* Toggler End */
+
+
+/* Custom checkboxes */
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  padding-right: 5px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: right;
+  height: 30px;
+  width: 85px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 30px;
+}
+
+.adjustable-width {
+  width: auto;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--accent-color);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--sidebar-text-color);
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.disabled-field {
+  opacity: 0.3;
+}
+
+@media(min-width: 768px) {
+  .input-range {
+    width: 220px;
+  }
+}
+
+.y-axis text {
+  font-size: 16px;
+  fill: grey;
+}
+
+.x-axis text {
+  font-family: "Galada";
+  font-weight: "500";
+  font-style: italic;
+  letter-spacing: -3px;
+  fill: rgb(205, 169, 27);
+  font-size: 26px;
+}
+
+/* Spinner start */
+
+.lds-grid {
+  display: inline-block;
+  position: absolute;
+  top: calc(50% - 40px);
+  left: calc(50% - 40px);
+  width: 80px;
+  height: 80px;
+}
+.lds-grid div {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  animation: lds-grid 1.2s linear infinite;
+}
+.lds-grid div:nth-child(1) {
+  top: 8px;
+  left: 8px;
+  animation-delay: 0s;
+}
+.lds-grid div:nth-child(2) {
+  top: 8px;
+  left: 32px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(3) {
+  top: 8px;
+  left: 56px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(4) {
+  top: 32px;
+  left: 8px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(5) {
+  top: 32px;
+  left: 32px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(6) {
+  top: 32px;
+  left: 56px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(7) {
+  top: 56px;
+  left: 8px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(8) {
+  top: 56px;
+  left: 32px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(9) {
+  top: 56px;
+  left: 56px;
+  animation-delay: -1.6s;
+}
+@keyframes lds-grid {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Spinner end */

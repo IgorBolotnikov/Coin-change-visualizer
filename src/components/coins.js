@@ -2,17 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getRandomInt, getDarkerColor, getCoinRadius } from './../helpers.js'
 
-const COIN_COLORS = {
-  1: '#ffdb4d',
-  2: '#ffdb4d',
-  5: '#ffdb4d',
-  10: '#ffdb4d',
-  25: '#ffdb4d',
-  50: '#ffdb4d',
-}
+export const COIN_COLOR = '#ffdb4d';
 
 export default function Coin(props) {
-  const color = COIN_COLORS[props.faceValue];
+  const color = COIN_COLOR;
   const radius = getCoinRadius(props.faceValue);
   const darkColor = getDarkerColor(color, 50);
   const circleStyle = {

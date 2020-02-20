@@ -1,26 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
-import { LIGHT_GREEN } from './../constants';
 
 export function InputField(props) {
   return (
-    <input
+    <input className="input-field"
+      id={props.id}
       value={props.value}
       onChange={props.onChange}
       type={props.type}
       placeholder={props.placeholder}
       step={props.step}
+      disabled={props.disabled}
     />
   );
 }
 
 InputField.propTypes = {
+  id: PropTypes.number,
   value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  step: PropTypes.number.isRequired
+  step: PropTypes.number.isRequired,
+  disabled: PropTypes.bool
 }
 
 export function SliderField(props) {
@@ -29,9 +32,10 @@ export function SliderField(props) {
       step={1}
       minValue={props.minValue}
       maxValue={props.maxValue}
-      formatLabel={value => `${value} ¢`}
+      formatLabel={value => `${value}${props.format || ""}`}
       value={props.value}
       onChange={props.onChange}
+      step={props.step}
     />
   );
 }
@@ -41,21 +45,38 @@ SliderField.propTypes = {
   maxValue: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
+  step: PropTypes.number,
+  format: PropTypes.string
+}
+
+export function DoubleSliderField(props) {
+  return (
+    <InputRange
+      step={1}
+      minValue={props.minValue}
+      maxValue={props.maxValue}
+      formatLabel={value => `${value}${props.format || ""}`}
+      value={props.value}
+      onChange={props.onChange}
+      step={props.step}
+    />
+  );
+}
+
+DoubleSliderField.propTypes = {
+  minValue: PropTypes.number.isRequired,
+  maxValue: PropTypes.number.isRequired,
+  value: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  step: PropTypes.number,
+  format: PropTypes.string
 }
 
 export function Button(props) {
-  const style = {
-    backgroundColor: LIGHT_GREEN,
-    margin: "auto",
-    display: "block",
-    color: "white"
-  }
-
   return (
     <button
-      style={style}
       onClick={props.onClick}
-      className='btn'
+      className='btn button-accent'
     >
       {props.text}
     </button>
@@ -91,4 +112,21 @@ Toggle.propTypes = {
   checked: PropTypes.bool.isRequired,
   checkedText: PropTypes.string.isRequired,
   uncheckedText: PropTypes.string.isRequired
+}
+
+export function CheckBox(props) {
+  return (
+    <input
+      type="checkbox"
+      id={props.id}
+      checked={props.checked}
+      onChange={props.onChange}
+    />
+  );
+}
+
+CheckBox.propTypes = {
+  id: PropTypes.number,
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
 }
