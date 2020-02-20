@@ -1,66 +1,62 @@
-const COIN_SIZES = [1, 2, 5, 10, 25, 50]; // Can be any amount and any values
-const COINS_NUMS = {
-  1: 10000,
-  2: 10000,
-  5: 9000,
-  10: 10000,
-  25: 7000,
-  50: 7000
-};
-const MAX_CHANGE = 100;
-const CYCLES_AMOUNT = 14000;
-var WITH_COEFF = false;
-
-function getAmountCoeff(coinNums, coinAmount) {
-  return getMaxCoinNum(coinNums) / coinAmount;
-}
-
-function getCoinNums(coinSizes) {
+export function getCoinNums(coinSizes, allCoinNums) {
   const coinNums = {};
   coinSizes.forEach((coin) => {
-    coinNums[coin] = COINS_NUMS[coin];
+    if (allCoinNums[coin].active) {
+      coinNums[coin] = allCoinNums[coin].value;
+    }
   });
   return coinNums;
 }
 
-function updateCoinNums(change, coinNums) {
-  for (let coin of COIN_SIZES) {
+export function updateCoinNums(change, coinNums, coins) {
+  for (let coin of coins) {
     coinNums[coin] -= change[coin];
   }
 }
 
-function getMaxCoinNum(coinNums) {
+export function getMaxCoinNum(coinNums, coinSizes) {
   let maxNum = 0;
-  for (let coin of COIN_SIZES) {
+  for (let coin of coinSizes) {
     maxNum = coinNums[coin] > maxNum ? coinNums[coin] : maxNum;
   }
   return maxNum;
 }
 
-function getMinCoinNum(coinNums) {
-  let minNum = getMaxCoinNum(COINS_NUMS) + 1;
-  for (let coin of COIN_SIZES) {
+export function getMinCoinNum(coinNums, coinSizes) {
+  let minNum = getMaxCoinNum(coinNums, coinSizes) + 1;
+  for (let coin of coinSizes) {
     minNum = coinNums[coin] < minNum ? coinNums[coin] : minNum;
   }
   return minNum;
 }
 
-function getMinCoins()
+export function getMinCoins(coinNums, changeSum, coinSizes, prioritization) {
+  let minCoins = 0;
+  if (prioritization) {
+    minCoins = getAmountCoeff(
+      coinNums,
+      getMinCoinNum(coinNums, coinSizes), coinSizes
+    ) * changeSum;
+  } else {
+    minCoins = changeSum;
+  }
+  return minCoins
+}
+
+export function getAmountCoeff(coinNums, coinAmount, coinSizes) {
+  return getMaxCoinNum(coinNums, coinSizes) / coinAmount;
+}
 
 // Create an array of length equal to che change sum
 // so that each consecutive sum is calculated against prevoius sums
 // Each element in the array contains an object, which holds
 // the minimum amount of coins to get this sum
 // and amount of each coin separately
-function getAmountsArray(changeSum, coinSizes) {
+export function getAmountsArray(changeSum, coinSizes, coinNums, prioritization) {
   // Every amount (except from 0 cents) has maximum amount of coins
   // So that we can compare real values with these biggest amounts
   const entry = {}
-  if (WITH_COEFF) {
-    entry.minCoins = getAmountCoeff(coinNums, getMinCoinNum(coinNums)) * changeSum;
-  } else {
-    entry.minCoins = changeSum;
-  }
+  entry.minCoins = getMinCoins(coinNums, changeSum, coinSizes, prioritization);
   coinSizes.forEach(coin => { entry[coin] = 0; });
   const amounts = new Array(changeSum + 1);
   amounts.fill(0);
@@ -72,7 +68,7 @@ function getAmountsArray(changeSum, coinSizes) {
   return amounts;
 }
 
-function getChange(amountsArray, coinNums) {
+export function getChange(amountsArray, coinNums, coinSizes, prioritization) {
   // Coefficient is used to adjust particular coin 'value' depending on
   // How many coins of this value remain
   let amountCoeff = 1;
@@ -82,12 +78,12 @@ function getChange(amountsArray, coinNums) {
   for (let amount = 1; amount < amountsArray.length; amount++) {
     // Check every coin
     let foundChange = false;
-    for (let coin of COIN_SIZES) {
+    for (let coin of coinSizes) {
       // Omit coins if their value is more than the amount itself, e.g.
       // There is no need to check if change of 3 can be given with 5 cent coin
       if (coin <= amount && coinNums[coin] > 0) {
-        if (WITH_COEFF) {
-          amountCoeff = getAmountCoeff(coinNums, coinNums[coin]);
+        if (prioritization) {
+          amountCoeff = getAmountCoeff(coinNums, coinNums[coin], coinSizes);
         }
         // Calculate the difference between the amount and coin value
         const diff = amount - coin;
@@ -111,51 +107,44 @@ function getChange(amountsArray, coinNums) {
     }
     if (!foundChange) {
       console.log("Didn't find change!");
-      console.log(amount);
       return amountsArray.slice(-1)[0];
     }
   }
   return amountsArray.slice(-1)[0];
 }
 
-let coinNums = getCoinNums(COIN_SIZES);
-for (let count = 0; count < CYCLES_AMOUNT; count++) {
-  const change_sum = getRandomInt(1, MAX_CHANGE);
-  const array = getAmountsArray(change_sum, COIN_SIZES);
-  const change = getChange(array, coinNums);
-  updateCoinNums(change, coinNums);
-  // console.log(`Для сдачи ${change_sum} коп нужно:`);
-  // for (let coin of COIN_SIZES) {
-  //   if (change[coin] !== 0) {
-  //     console.log(`${coin}-копеечных: ${change[coin]}`);
-  //   }
-  // }
-}
-if (!WITH_COEFF) {
-  console.log('-- Без приоретизации --');
-} else {
-  console.log('-- С приоретизацией --');
-}
-console.log('Осталось: ');
-for (let coin of COIN_SIZES) {
-  console.log(`${coin}-копеечных: ${coinNums[coin]}`);
-}
+// let coinNums = getCoinNums(COIN_SIZES);
+// for (let count = 0; count < CYCLES_AMOUNT; count++) {
+//   const change_sum = getRandomInt(1, MAX_CHANGE);
+//   const array = getAmountsArray(change_sum, COIN_SIZES);
+//   const change = getChange(array, coinNums);
+//   updateCoinNums(change, coinNums);
+// }
+// if (!WITH_COEFF) {
+//   console.log('-- Без приоретизации --');
+// } else {
+//   console.log('-- С приоретизацией --');
+// }
+// console.log('Осталось: ');
+// for (let coin of COIN_SIZES) {
+//   console.log(`${coin}-копеечных: ${coinNums[coin]}`);
+// }
 
-WITH_COEFF = !WITH_COEFF;
-
-coinNums = getCoinNums(COIN_SIZES);
-for (let count = 0; count < CYCLES_AMOUNT; count++) {
-  const change_sum = getRandomInt(1, MAX_CHANGE);
-  const array = getAmountsArray(change_sum, COIN_SIZES);
-  const change = getChange(array, coinNums);
-  updateCoinNums(change, coinNums);
-}
-if (!WITH_COEFF) {
-  console.log('-- Без приоретизации --');
-} else {
-  console.log('-- С приоретизацией --');
-}
-console.log('Осталось: ');
-for (let coin of COIN_SIZES) {
-  console.log(`${coin}-копеечных: ${coinNums[coin]}`);
-}
+// WITH_COEFF = !WITH_COEFF;
+//
+// coinNums = getCoinNums(COIN_SIZES);
+// for (let count = 0; count < CYCLES_AMOUNT; count++) {
+//   const change_sum = getRandomInt(1, MAX_CHANGE);
+//   const array = getAmountsArray(change_sum, COIN_SIZES);
+//   const change = getChange(array, coinNums);
+//   updateCoinNums(change, coinNums);
+// }
+// if (!WITH_COEFF) {
+//   console.log('-- Без приоретизации --');
+// } else {
+//   console.log('-- С приоретизацией --');
+// }
+// console.log('Осталось: ');
+// for (let coin of COIN_SIZES) {
+//   console.log(`${coin}-копеечных: ${coinNums[coin]}`);
+// }
