@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/Coin-change-visualizer/static/css/main.e2234864.chunk.css",
-    "main.js": "/Coin-change-visualizer/static/js/main.1d9d65a4.chunk.js",
-    "main.js.map": "/Coin-change-visualizer/static/js/main.1d9d65a4.chunk.js.map",
+    "main.css": "/Coin-change-visualizer/static/css/main.9edbd485.chunk.css",
+    "main.js": "/Coin-change-visualizer/static/js/main.20b98054.chunk.js",
+    "main.js.map": "/Coin-change-visualizer/static/js/main.20b98054.chunk.js.map",
     "runtime-main.js": "/Coin-change-visualizer/static/js/runtime-main.b45ce506.js",
     "runtime-main.js.map": "/Coin-change-visualizer/static/js/runtime-main.b45ce506.js.map",
     "static/css/2.3d56841b.chunk.css": "/Coin-change-visualizer/static/css/2.3d56841b.chunk.css",
-    "static/js/2.f2198be1.chunk.js": "/Coin-change-visualizer/static/js/2.f2198be1.chunk.js",
-    "static/js/2.f2198be1.chunk.js.map": "/Coin-change-visualizer/static/js/2.f2198be1.chunk.js.map",
+    "static/js/2.42f07727.chunk.js": "/Coin-change-visualizer/static/js/2.42f07727.chunk.js",
+    "static/js/2.42f07727.chunk.js.map": "/Coin-change-visualizer/static/js/2.42f07727.chunk.js.map",
     "index.html": "/Coin-change-visualizer/index.html",
-    "precache-manifest.c5250d72368443be736a00de19598702.js": "/Coin-change-visualizer/precache-manifest.c5250d72368443be736a00de19598702.js",
+    "precache-manifest.d43873d48c58dadbaa615e4a0d3f3a21.js": "/Coin-change-visualizer/precache-manifest.d43873d48c58dadbaa615e4a0d3f3a21.js",
     "service-worker.js": "/Coin-change-visualizer/service-worker.js",
     "static/css/2.3d56841b.chunk.css.map": "/Coin-change-visualizer/static/css/2.3d56841b.chunk.css.map",
-    "static/css/main.e2234864.chunk.css.map": "/Coin-change-visualizer/static/css/main.e2234864.chunk.css.map",
-    "static/js/2.f2198be1.chunk.js.LICENSE.txt": "/Coin-change-visualizer/static/js/2.f2198be1.chunk.js.LICENSE.txt"
+    "static/css/main.9edbd485.chunk.css.map": "/Coin-change-visualizer/static/css/main.9edbd485.chunk.css.map",
+    "static/js/2.42f07727.chunk.js.LICENSE.txt": "/Coin-change-visualizer/static/js/2.42f07727.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b45ce506.js",
     "static/css/2.3d56841b.chunk.css",
-    "static/js/2.f2198be1.chunk.js",
-    "static/css/main.e2234864.chunk.css",
-    "static/js/main.1d9d65a4.chunk.js"
+    "static/js/2.42f07727.chunk.js",
+    "static/css/main.9edbd485.chunk.css",
+    "static/js/main.20b98054.chunk.js"
   ]
 }
