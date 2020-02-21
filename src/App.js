@@ -71,7 +71,6 @@ function App() {
   let [loading, setLoading] = useState(false);
   let [cycles, setCycles] = useState(10000);
   let [coinNumbersSim, setCoinNumbsersSim] = useState(JSON.parse(JSON.stringify(COINS_NUMS)))
-  let [prioritization, setPrioritization] = useState(true);
 
   function toggleMenu(event) {
     setMenu(!menu);
@@ -133,10 +132,6 @@ function App() {
     setChangeRange(newRange);
   }
 
-  function handlePrioritizationChange(event) {
-    setPrioritization(!prioritization);
-  }
-
   function getActiveCoins(coinNums) {
     let array = [];
     for (let coin of COIN_SIZES) {
@@ -154,27 +149,47 @@ function App() {
 
   function runSimulation() {
     let counter = 0;
-    const coinNumsCollection = [];
+    const coinNumsCollection = {smart: [], dumb: []};
     const activeCoins = getActiveCoins(coinNumbersSim);
-    let coinNums = getCoinNums(activeCoins, coinNumbersSim);
+    let coinNums = {
+      dumb: getCoinNums(activeCoins, coinNumbersSim),
+      smart: getCoinNums(activeCoins, coinNumbersSim),
+    };
     for (let count = 0; count < cycles; count++) {
       const changeSum = getRandomInt(changeRange.min, changeRange.max);
-      const amountsArray = getAmountsArray(
+      // Calculate for Dumb mode
+      const amountsArray1 = getAmountsArray(
         changeSum,
         activeCoins,
-        coinNums,
-        prioritization
+        coinNums.dumb,
+        false
       );
-      const change = getChange(
-        amountsArray,
-        coinNums,
+      const change1 = getChange(
+        amountsArray1,
+        coinNums.dumb,
         activeCoins,
-        prioritization
+        false
       );
-      updateCoinNums(change, coinNums, activeCoins);
+      // Calculate for Smart mode
+      const amountsArray2 = getAmountsArray(
+        changeSum,
+        activeCoins,
+        coinNums.smart,
+        true
+      );
+      const change2 = getChange(
+        amountsArray2,
+        coinNums.smart,
+        activeCoins,
+        true
+      );
+      updateCoinNums(change1, coinNums.dumb, activeCoins);
+      updateCoinNums(change2, coinNums.smart, activeCoins);
+      // Increment counter and optionally collection
       counter += 1;
       if (counter === 100) {
-        coinNumsCollection.push({...coinNums});
+        coinNumsCollection.dumb.push({...coinNums.dumb});
+        coinNumsCollection.smart.push({...coinNums.smart});
         counter = 0;
       }
     }
@@ -228,23 +243,6 @@ function App() {
           />
           {simulation ? (
             <React.Fragment>
-              <div
-                className={prioritization ? (
-                  "d-flex justify-content-center pt-2"
-                ) : (
-                  "d-flex justify-content-center pt-2 disabled-field"
-                )}
-              >
-                <label htmlFor={0} className="checkbox-container adjustable-width text-white">
-                  Smart mode
-                  <CheckBox
-                    id={0}
-                    checked={prioritization}
-                    onChange={handlePrioritizationChange}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-              </div>
               <h5 className='text-center mb-2 mt-3'>Clients</h5>
               <SliderField
                 minValue={1000}
