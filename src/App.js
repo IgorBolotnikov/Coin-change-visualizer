@@ -6,16 +6,14 @@ import {
   SliderField,
   DoubleSliderField,
   Button,
+  MenuButton,
   Toggle,
   CheckBox
 } from './components/input';
 import {
   getRandomInt,
-  getCoinRadius,
   generateCoinCoords,
   getCoinsArray,
-  getDarkerColor,
-  sleep
 } from './helpers';
 import {
   getCoinNums,
@@ -23,7 +21,9 @@ import {
   getChange,
   updateCoinNums
 } from './algorithm';
+import InfoModal from './components/modal';
 import { drawCoinNumbers, clearSVG } from './barchart';
+import { MAIN_INFO } from './text';
 
 const COIN_SIZES = [1, 2, 5, 10, 25, 50]; // Can be any amount and any values
 const COINS_NUMS = {
@@ -60,7 +60,6 @@ function App() {
   const height = window.innerHeight - 54;
   // General coin values
   let [menu, setMenu] = useState(false);
-  let [coins, setCoins] = useState(COIN_SIZES);
   let [coinNumbers, setCoinNumbers] = useState(COINS_NUMS);
   let [coinCoords, setCoinCoords] = useState([]);
 
@@ -68,11 +67,9 @@ function App() {
   // NORMAL mode
   let [changeRange, setChangeRange] = useState({min: 1, max: 100});
   let [changeValue, setChangeValue] = useState(68);
-  let [changeCoins, setChangeCoins] = useState([]);
   // SIMULATION mode
   let [loading, setLoading] = useState(false);
   let [cycles, setCycles] = useState(10000);
-  let [withCoeff, setWithCoeff] = useState(true);
   let [coinNumbersSim, setCoinNumbsersSim] = useState(JSON.parse(JSON.stringify(COINS_NUMS)))
   let [prioritization, setPrioritization] = useState(true);
 
@@ -91,15 +88,15 @@ function App() {
 
   function calculateChange(event) {
     event.preventDefault();
-    const coinNums = getCoinNums(coins, coinNumbers);
+    const coinNums = getCoinNums(COIN_SIZES, coinNumbers);
     const amountsArray = getAmountsArray(
       changeValue,
-      coins,
+      COIN_SIZES,
       coinNums,
       PRIORITIZATION
     );
-    const change = getChange(amountsArray, coinNums, coins, PRIORITIZATION);
-    const coinsArray = getCoinsArray(change, coins);
+    const change = getChange(amountsArray, coinNums, COIN_SIZES, PRIORITIZATION);
+    const coinsArray = getCoinsArray(change, COIN_SIZES);
     const coords = generateCoinCoords(coinsArray, width, height);
     setCoinCoords(coords);
   }
@@ -142,7 +139,7 @@ function App() {
 
   function getActiveCoins(coinNums) {
     let array = [];
-    for (let coin of coins) {
+    for (let coin of COIN_SIZES) {
       if (coinNums[coin].active) {
         array.push(coin);
       }
@@ -176,7 +173,7 @@ function App() {
       );
       updateCoinNums(change, coinNums, activeCoins);
       counter += 1;
-      if (counter == 100) {
+      if (counter === 100) {
         coinNumsCollection.push({...coinNums});
         counter = 0;
       }
@@ -186,7 +183,6 @@ function App() {
   }
 
   useEffect(() => {
-    console.log(simulation);
     if (!simulation) {
       setCoinNumbers(JSON.parse(JSON.stringify(COINS_NUMS)));
       clearSVG();
@@ -195,13 +191,17 @@ function App() {
 
   return (
     <React.Fragment>
-      <nav className='navbar navbar-minimal d-flex justify-content-between'>
+      <nav className='navbar navbar-minimal d-flex justify-content-end'>
         <div>
-          <Button
+          <MenuButton
             onClick={toggleMenu}
-            text="Menu"
+            text="≡"
           />
         </div>
+        <InfoModal
+          title="Introduction"
+          body={MAIN_INFO}
+        />
         <div>
           {simulation ? (
             <Button
@@ -245,7 +245,7 @@ function App() {
                   <span className="checkmark"></span>
                 </label>
               </div>
-              <h5 className='text-center mb-2 mt-3'>Cycles</h5>
+              <h5 className='text-center mb-2 mt-3'>Clients</h5>
               <SliderField
                 minValue={1000}
                 maxValue={100000}
@@ -263,7 +263,7 @@ function App() {
                 format={" ¢"}
               />
               <h5 className='text-center mb-2 mt-3'>Coins</h5>
-              {coins.map(coin => (
+              {COIN_SIZES.map(coin => (
                 <div
                   key={coin}
                   className="mb-2 d-flex text-white justify-content-center align-items-center"

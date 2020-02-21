@@ -58,8 +58,39 @@ input[type=number]::-webkit-outer-spin-button {
   color: var(--sidebar-text-color);
 }
 
+.menu-button {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: var(--dark-bg-color);
+  height: 54px;
+  width: 54px;
+  font-size: 56px;
+  line-height: 0.6;
+  border: none;
+  padding-bottom: 15px;
+  padding-left: 8px;
+  padding-right: 0px;
+  font-weight: lighter;
+  color: var(--sidebar-text-color);
+}
+
 .button-accent:hover {
   color: var(--sidebar-text-color);
+}
+
+.info-button {
+  background-color: var(--dark-bg-color);
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  width: 1.3em;
+  height: 1.3em;
+  margin-right: 15px;
 }
 
 .sidebar {
@@ -76,15 +107,17 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .sidebar-close {
-  overflow: hidden;
+  z-index: 1500;
   position: absolute;
+  height: 54px;
+  width: 54px;
   top: 0;
-  right: 8px;
+  right: 0;
   font-size: 60px;
-  line-height: 0.7;
-  margin-left: 50px;
+  line-height: 0.6;
+  padding-bottom: 10px;
   font-weight: lighter;
-  background-color: var(--dark-bg-color);
+  background-color: #ffffff00;
   border: none;
 }
 
