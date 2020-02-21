@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getRandomInt, getDarkerColor, getCoinRadius } from './../helpers.js'
+import { getDarkerColor, getCoinRadius } from './../helpers.js'
 
 export const COIN_COLOR = '#ffdb4d';
 

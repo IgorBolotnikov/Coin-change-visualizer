@@ -20,7 +20,6 @@ export async function drawCoinNumbers(coinSizes, coinNumsCollection) {
     bottom: Math.max(80, (window.innerHeight - 600) / 2),
     left: Math.max(65, (window.innerWidth - 500) / 2)
   };
-  let width = window.innerWidth;
   let height = Math.max(500, window.innerHeight - 54);
 
   let svg = d3.select('svg');
