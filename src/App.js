@@ -192,16 +192,16 @@ function App() {
   return (
     <React.Fragment>
       <nav className='navbar navbar-minimal d-flex justify-content-end'>
-        <div>
-          <MenuButton
-            onClick={toggleMenu}
-            text="≡"
+        <MenuButton
+          onClick={toggleMenu}
+          text="≡"
+        />
+        <div className="mr-3">
+          <InfoModal
+            title="Introduction"
+            body={MAIN_INFO}
           />
         </div>
-        <InfoModal
-          title="Introduction"
-          body={MAIN_INFO}
-        />
         <div>
           {simulation ? (
             <Button

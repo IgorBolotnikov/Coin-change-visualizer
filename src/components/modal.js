@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 export default function InfoModal(props) {
   return (
     <React.Fragment>
-      <button type="button" className="info-button" data-toggle="modal" data-target="#infoModal">
-        i
-      </button>
+      <button type="button" className="info-button" data-toggle="modal" data-target="#infoModal">i</button>
       <div className="modal fade" id="infoModal" tabIndex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
