@@ -6,6 +6,7 @@ import {
   SliderField,
   DoubleSliderField,
   Button,
+  MenuButton,
   Toggle,
   CheckBox
 } from './components/input';
@@ -23,6 +24,7 @@ import {
   getChange,
   updateCoinNums
 } from './algorithm';
+import Modal from './components/modal';
 import { drawCoinNumbers, clearSVG } from './barchart';
 
 const COIN_SIZES = [1, 2, 5, 10, 25, 50]; // Can be any amount and any values
@@ -197,9 +199,9 @@ function App() {
     <React.Fragment>
       <nav className='navbar navbar-minimal d-flex justify-content-between'>
         <div>
-          <Button
+          <MenuButton
             onClick={toggleMenu}
-            text="Menu"
+            text="≡"
           />
         </div>
         <div>
