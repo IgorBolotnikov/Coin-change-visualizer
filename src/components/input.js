@@ -29,7 +29,6 @@ InputField.propTypes = {
 export function SliderField(props) {
   return (
     <InputRange
-      step={1}
       minValue={props.minValue}
       maxValue={props.maxValue}
       formatLabel={value => `${value}${props.format || ""}`}
@@ -52,7 +51,6 @@ SliderField.propTypes = {
 export function DoubleSliderField(props) {
   return (
     <InputRange
-      step={1}
       minValue={props.minValue}
       maxValue={props.maxValue}
       formatLabel={value => `${value}${props.format || ""}`}

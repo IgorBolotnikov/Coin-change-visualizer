@@ -79,6 +79,20 @@ input[type=number]::-webkit-outer-spin-button {
   color: var(--sidebar-text-color);
 }
 
+.info-button {
+  background-color: var(--dark-bg-color);
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  width: 1.3em;
+  height: 1.3em;
+  margin-right: 15px;
+}
+
 .sidebar {
   width: 320px;
   height: 100vh;

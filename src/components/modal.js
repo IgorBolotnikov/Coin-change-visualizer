@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-export default function Modal(props) {
+export default function InfoModal(props) {
   return (
     <React.Fragment>
-      <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#infoModal">
-        {props.buttonText}
+      <button type="button" className="info-button" data-toggle="modal" data-target="#infoModal">
+        i
       </button>
       <div className="modal fade" id="infoModal" tabIndex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
@@ -17,8 +17,7 @@ export default function Modal(props) {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body">
-              {props.body}
+            <div className="modal-body" dangerouslySetInnerHTML={{__html: props.body}}>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -30,8 +29,7 @@ export default function Modal(props) {
   )
 }
 
-Modal.propTypes = {
-  buttonText: PropTypes.string.isRequired,
+InfoModal.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
 }
