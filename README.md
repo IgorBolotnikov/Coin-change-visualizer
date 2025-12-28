@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repository was moved [here](https://codeberg.org/igorbolotnikov/Coin-change-visualizer)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
